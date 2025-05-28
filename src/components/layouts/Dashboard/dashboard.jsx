@@ -5,13 +5,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const NAVIGATION = [
   { kind: "header", title: "Main items" },
-  { segment: "", title: "Dasboard", icon: <DashboardIcon /> },
-  { segment: "orders", title: "Orders", icon: <ShoppingCartIcon /> },
-  { segment: "products", title: "Products", icon: <LayersIcon /> },
-  { segment: "other", title: "Other", icon: <BarChartIcon /> },
+  { segment: "home/dashboard", title: "Dasboard", icon: <DashboardIcon /> },
+  { segment: "home/orders", title: "Orders", icon: <ShoppingCartIcon /> },
+  { segment: "home/products", title: "Products", icon: <LayersIcon /> },
+  { segment: "home/other", title: "Other", icon: <BarChartIcon /> },
 ];
 
 const demoTheme = extendTheme({
@@ -29,9 +30,10 @@ const demoTheme = extendTheme({
 });
 
 function useDemoRouter() {
+  
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   return {
     pathname: location.pathname,
     searchParams: new URLSearchParams(location.search),
@@ -40,10 +42,18 @@ function useDemoRouter() {
 }
 
 const Dashbord = () => {
+  const navigate = useNavigate();
+  
   const router = useDemoRouter("/dashboard");
   
   const demoWindow = typeof window !== "undefined" ? window : undefined;
-
+  
+  useEffect(()=>{
+    const token = localStorage.getItem("Token");
+    if(!token)navigate("/")
+      // window.location.reload()
+  },[])
+  
   return (
     <AppProvider
       navigation={NAVIGATION}
@@ -53,7 +63,6 @@ const Dashbord = () => {
     >
       <DashboardLayout>
         <PageContainer>
-          {/* Child routes will render here */}
           <Outlet />
         </PageContainer>
       </DashboardLayout>
