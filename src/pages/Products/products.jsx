@@ -9,8 +9,8 @@ import InputLabel from "@mui/material/InputLabel";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteProduct, getProducts } from "../../entities/reducers/adminSlice";
 import { NavLink, useNavigate } from "react-router-dom";
+import { deleteProduct, getProducts } from "../../entities/Product/productSlice";
 
 let api = import.meta.env.VITE_API_URL;
 
@@ -25,7 +25,8 @@ const Products = () => {
   };
 
   let dispatch = useDispatch();
-  let { data } = useSelector((store) => store.admin);
+  let { getData } = useSelector((store) => store.products);
+  
 
   useEffect(() => {
     dispatch(getProducts());
@@ -86,7 +87,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody className="text-gray-900">
-            {data.map((e) => {
+            {getData.map((e) => {
               return (
                 <tr className="border-b hover:bg-gray-50" key={e.id}>
                   <td className="p-4">
@@ -113,7 +114,7 @@ const Products = () => {
                   <td className="p-4">
                     <div className="flex items-center gap-[8px]">
                       <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
-                      <button onClick={() => dispatch(DeleteProduct(e.id))}>
+                      <button onClick={() => dispatch(deleteProduct(e.id))}>
                         <DeleteIcon className="text-[red] cursor-pointer" />
                       </button>
                     </div>

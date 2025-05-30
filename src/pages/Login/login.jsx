@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../entities/reducers/adminSlice";
+import { login } from "../../entities/adminSlice";
 
 
 const Login = () => {

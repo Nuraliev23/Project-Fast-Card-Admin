@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetBrands } from "../../entities/reducers/adminSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { TextField } from "@mui/material";
+import { addNewBrand, deleteBrand, getBrands } from "../../entities/Brands/brandSlice";
 
 const Brands = () => {
   const dispatch = useDispatch();
-  const { brands } = useSelector((store) => store.admin);
-console.log(brands);
+  const { brands } = useSelector((store) => store.brand);
+  const[newbrand,setnewbrand] = useState('')
 
   useEffect(() => {
-    dispatch(GetBrands());
+    dispatch(getBrands());
   },[]);
 
   return (
@@ -35,7 +35,9 @@ console.log(brands);
                   <td className="p-4">{el.brandName}</td>
                   <td className="p-4">
                     <div className="p-4 font-medium text-blue-600 flex items-center gap-[8px]">
-                      <DeleteIcon className="text-[red] cursor-pointer" />
+                      <button onClick={()=>dispatch(deleteBrand(el.id))}>
+                      <DeleteIcon  className="text-[red] cursor-pointer" />
+                      </button>
                       <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
                     </div>
                   </td>
@@ -44,10 +46,14 @@ console.log(brands);
             })}
             </tbody>
         </table>
-        <div className="md:w-[40%] w-[100%] border-[1px] border-[#80808049] flex flex-col gap-[30px]">
-          <h1>Add new brand</h1>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <button className="bg-[#2563EB] text-white rounded-[5px] p-[5px_15px]">
+        <div className="md:w-[40%] w-[100%] h-[200px] text-end border-[1px] border-[#80808049] p-[20px]">
+            <div className="mb-[24px]">
+                <h1 className="text-start mb-[24px]">Add new brand</h1>
+                <TextField id="outlined-basic" className="w-full" label="Outlined" variant="outlined"  value={newbrand} onChange={(e)=>setnewbrand(e.target.value)}/>
+            </div>
+          <button onClick={()=>{dispatch(addNewBrand(newbrand)) 
+            setnewbrand('')
+          }} className="bg-[#2563EB] text-white rounded-[5px] p-[5px_15px] cursor-pointer">
             Create
           </button>
         </div>
