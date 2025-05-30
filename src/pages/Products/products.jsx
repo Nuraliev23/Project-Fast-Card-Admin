@@ -87,7 +87,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody className="text-gray-900">
-            {getData.map((e) => {
+            {getData?.map((e) => {
               return (
                 <tr className="border-b hover:bg-gray-50" key={e.id}>
                   <td className="p-4">

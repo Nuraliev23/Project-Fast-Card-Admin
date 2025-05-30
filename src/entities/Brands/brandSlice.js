@@ -50,6 +50,27 @@ export const deleteBrand = createAsyncThunk(
   }
 );
 
+export const updateBrand = createAsyncThunk(
+  "brand/updateBrand",
+  async (name,{ dispatch }) => {
+    try {
+      const token = localStorage.getItem("Token");
+
+      let { data } = await axios.put(
+        `${api}/Brand/update-brand?Id=${name.id}&BrandName=${name.brandName}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(getBrands());
+      return data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
 export const brandSlice = createSlice({
   name: "brand",
   initialState: {
@@ -61,6 +82,9 @@ export const brandSlice = createSlice({
       state.brands = action.payload;
     })
    .addCase(addNewBrand.fulfilled, (state, action) => {
+      state.brands.push(action.payload);
+    })
+   .addCase(updateBrand.fulfilled, (state, action) => {
       state.brands.push(action.payload);
     })
    .addCase(deleteBrand.fulfilled, (state, action) => {

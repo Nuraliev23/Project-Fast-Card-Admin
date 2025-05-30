@@ -1,7 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import Brands from "./brands";
 import Categories from "./categories";
-import AddIcon from "@mui/icons-material/Add";
 import { NavLink, Outlet } from "react-router-dom";
 
 const Other = () => {
@@ -21,9 +20,7 @@ const Other = () => {
           </p>
           <p className="font-bold">Banners</p>
         </div>
-        <Button variant="outlined" size="medium" startIcon={<AddIcon />}>
-         Add New
-        </Button>
+      
       </div>
       <div className="flex gap-[16px] my-[30px]">
         <TextField
