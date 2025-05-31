@@ -15,6 +15,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import {
   addNewCategory,
   getCategories,
+  updateCategories,
 } from "../../entities/Category/categorySlice";
 import { useState } from "react";
 
@@ -33,7 +34,8 @@ const Categories = () => {
   const [editCatName, setEditCatName] = useState("");
   const [editImageFile, setEditImageFile] = useState(null);
   const [editImagePreview, setEditImagePreview] = useState(null);
-
+  const [editId,seteditId] = useState(null)
+  const [search,setsearch] = useState('')
 
 
   const handlEditeImageChange = (e) => {
@@ -48,9 +50,17 @@ const Categories = () => {
 
 function updateCategory(el) {
     setEditCatName(el.categoryName)
-    setEditImagePreview(el.categoryImage)
+    seteditId(el.id)
 }
-
+const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("Id", editId);
+    formData.append("CategoryName", editCatName);
+    formData.append("CategoryImage", editImageFile);
+    dispatch(updateCategories(formData));
+    handleEditClose()
+  };
 
 const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -76,7 +86,6 @@ const handleImageChange = (e) => {
 
   const handleClose = () => {
     setOpen(false);
-    setOpen2(false);
     setCatName("");
     setImageFile(null);
     setImagePreview(null);
@@ -86,6 +95,10 @@ const handleImageChange = (e) => {
   };
   const handleEditClose = () => {
     setOpen2(false);
+    setEditCatName('')
+    setEditImageFile(null)
+    setEditImagePreview(null)
+    seteditId(null)
   };
 
   useEffect(() => {
@@ -93,7 +106,15 @@ const handleImageChange = (e) => {
   }, []);
   return (
     <div>
-      <div className="my-[30px] text-end">
+      <div className="w-full my-[30px] flex justify-between items-center">
+        <TextField
+          id="outlined-basic"
+          size="small"
+          label="Search..."
+          variant="outlined"
+          value={search}
+          onChange={(e)=>setsearch(e.target.value)}
+        />
         <Button
           variant="outlined"
           onClick={handleClickOpen}
@@ -104,7 +125,7 @@ const handleImageChange = (e) => {
         </Button>
       </div>
       <aside className="flex flex-col gap-[16px] md:flex-row flex-wrap">
-        {getDataCategory.map((e) => (
+        {getDataCategory?.filter((e)=>e.categoryName.toLowerCase().includes(search.toLowerCase())).map((e) => (
           <div
             key={e.id}
             className="border-[1px] flex flex-col items-center p-[10px] gap-[10px] rounded-[10px] h-[165px] hover:shadow-lg w-[190px] mx-auto"
@@ -138,7 +159,7 @@ const handleImageChange = (e) => {
               Update Category
             </DialogTitle>
             <DialogContent>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleEditSubmit}>
                 <TextField
                   value={editCatName}
                   onChange={(e) => setEditCatName(e.target.value)}

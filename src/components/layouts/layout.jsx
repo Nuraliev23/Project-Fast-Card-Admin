@@ -8,6 +8,8 @@ import Login from "../../pages/Login/login";
 import Categories from "../../pages/Other/categories";
 import Brands from "../../pages/Other/brands";
 import AddProduct from "../../pages/Products/addProduct";
+import SubCategories from "../../pages/Other/subCategories";
+import EditProduct from "../../pages/Products/editProduct";
 
 function Layout() {
   const router = createBrowserRouter([
@@ -42,6 +44,10 @@ function Layout() {
           path: "addProduct",
           element: <AddProduct/>,
         },
+        {
+          path: "editProduct/:id",
+          element:<EditProduct/>,
+        },
 
         {
           path: "other",
@@ -54,6 +60,10 @@ function Layout() {
             {
               path: "brands",
               element: <Brands />,
+            },
+            {
+              path: "subCategories",
+              element: <SubCategories/>,
             },
           ],
         },

@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -46,6 +43,7 @@ const AddProduct = () => {
     };
     reader.readAsDataURL(file);
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

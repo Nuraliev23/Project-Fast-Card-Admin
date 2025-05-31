@@ -10,15 +10,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { deleteProduct, getProducts } from "../../entities/Product/productSlice";
+import {
+  deleteProduct,
+  getProducts,
+} from "../../entities/Product/productSlice";
 
 let api = import.meta.env.VITE_API_URL;
 
 const Products = () => {
-
   const [age, setAge] = useState("");
+  const [search, setsearch] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -26,7 +29,6 @@ const Products = () => {
 
   let dispatch = useDispatch();
   let { getData } = useSelector((store) => store.products);
-  
 
   useEffect(() => {
     dispatch(getProducts());
@@ -36,11 +38,8 @@ const Products = () => {
     <div>
       <div className="flex justify-between items-center ">
         <p className="text-[24px] font-bold">Products</p>
-        <Button  variant="outlined" size="medium" startIcon={<AddIcon />}>
-        <NavLink to="/home/addProduct">
-        Add New
-        </NavLink>
-
+        <Button variant="outlined" size="medium" startIcon={<AddIcon />}>
+          <NavLink to="/home/addProduct">Add New</NavLink>
         </Button>
       </div>
       <div className="flex gap-[16px] justify-between items-center mt-[30px]">
@@ -50,6 +49,8 @@ const Products = () => {
             size="small"
             label="Search..."
             variant="outlined"
+            value={search}
+            onChange={(e) => setsearch(e.target.value)}
           />
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Filter</InputLabel>
@@ -69,7 +70,7 @@ const Products = () => {
         </div>
         <div>
           <DeleteIcon className="text-[#2563EB] cursor-pointer" />
-          <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
+            <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
         </div>
       </div>
       <div className="overflow-x-auto bg-white rounded-lg shadow p-4">
@@ -87,41 +88,49 @@ const Products = () => {
             </tr>
           </thead>
           <tbody className="text-gray-900">
-            {getData?.map((e) => {
-              return (
-                <tr className="border-b hover:bg-gray-50" key={e.id}>
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 accent-blue-500 cursor-pointer"
-                    />
-                  </td>
-                  <td className="p-4 font-medium text-blue-600 flex items-center gap-[8px]">
-                    <img
-                      style={{ width: "50px", height: "50px" }}
-                      src={
-                        e.image ? `${api}/images/${e.image}` : "placeholder.jpg"
-                      }
-                      alt={e.productName}
-                    />
-                    <p>{e.productName}</p>
-                  </td>
-                  <td className="p-4">
-                    {e.quantity ? `${e.quantity} in stock` : "Out of Stock"}
-                  </td>
-                  <td className="p-4">{e.categoryName}</td>
-                  <td className="p-4">$ {e.price}</td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-[8px]">
-                      <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
-                      <button onClick={() => dispatch(deleteProduct(e.id))}>
-                        <DeleteIcon className="text-[red] cursor-pointer" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {getData
+              ?.filter((e) =>
+                e.categoryName.toLowerCase().includes(search.toLowerCase())
+              )
+              .map((e) => {
+                return (
+                  <tr className="border-b hover:bg-gray-50" key={e.id}>
+                    <td className="p-4">
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 accent-blue-500 cursor-pointer"
+                      />
+                    </td>
+                    <td className="p-4 font-medium text-blue-600 flex items-center gap-[8px]">
+                      <img
+                        style={{ width: "50px", height: "50px" }}
+                        src={
+                          e.image
+                            ? `${api}/images/${e.image}`
+                            : "placeholder.jpg"
+                        }
+                        alt={e.productName}
+                      />
+                      <p>{e.productName}</p>
+                    </td>
+                    <td className="p-4">
+                      {e.quantity ? `${e.quantity} in stock` : "Out of Stock"}
+                    </td>
+                    <td className="p-4">{e.categoryName}</td>
+                    <td className="p-4">$ {e.price}</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-[8px]">
+                        <NavLink to={`/home/editProduct/${e.id}`}>
+                          <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
+                        </NavLink>{" "}
+                        <button onClick={() => dispatch(deleteProduct(e.id))}>
+                          <DeleteIcon className="text-[red] cursor-pointer" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
         <div className="flex items-center justify-between mt-4 text-sm text-gray-500">

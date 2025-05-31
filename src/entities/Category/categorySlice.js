@@ -17,7 +17,7 @@ export const getCategories = createAsyncThunk(
 
 export const addNewCategory = createAsyncThunk(
   "category/addNewCategory",
-  async (formData, {}) => {
+  async (formData, {dispatch}) => {
     try {
       const token = localStorage.getItem("Token");
 
@@ -27,8 +27,27 @@ export const addNewCategory = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         }
       });
+      dispatch(getCategories())
       return data.data
     } catch (error) {}
+  }
+);
+export const updateCategories = createAsyncThunk(
+  "category/updateCategory",
+  async (formData, {dispatch}) => {
+    try {
+      const token = localStorage.getItem("Token");
+
+      let { data } = await axios.put(`${api}/Category/update-category`, formData,{
+        headers:{
+          "Content-Type":"multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      dispatch(getCategories())
+      return data.data
+    } catch (error) {console.error(error);
+    }
   }
 );
 
