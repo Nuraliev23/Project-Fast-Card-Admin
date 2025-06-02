@@ -81,8 +81,6 @@ console.log(getdataid);
   }
 }, [getdataid, brands, colors]);
 
-  console.log(getdataid);
-
   return (
     <div>
       <div>
@@ -185,8 +183,8 @@ console.log(getdataid);
                   <TextField
                   
                   value={discount}
-                  onChange={(e) => setDiscount(Number(e.target.value))} // Преобразуем в число
-                  type="number" // Тип должен быть number для числового ввода
+                  onChange={(e) => setDiscount(Number(e.target.value))} 
+                  type="number"
                   variant="outlined"
                 />
                   </div>

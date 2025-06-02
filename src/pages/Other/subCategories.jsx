@@ -1,7 +1,7 @@
 import { useDialogs } from "@toolpad/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubCategory } from "../../entities/Category/subCategorySlice";
+import { deleteSubCategory, getSubCategory } from "../../entities/Category/subCategorySlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 
@@ -32,7 +32,7 @@ const SubCategories = () => {
                 <td className="p-4">{el.subCategoryName}</td>
                 <td className="p-4">
                   <div className="p-4 font-medium text-blue-600 flex items-center gap-[8px]">
-                    <button onClick={() => dispatch(deleteBrand(el.id))}>
+                    <button onClick={() => dispatch(deleteSubCategory(el.id))}>
                       <DeleteIcon className="text-[red] cursor-pointer" />
                     </button>
                     <BorderColorIcon

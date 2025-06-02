@@ -15,6 +15,25 @@ export const getSubCategory = createAsyncThunk(
   }
 );
 
+
+export const deleteSubCategory = createAsyncThunk(
+    "subcategory/deleteSubCategory",
+    async (id, { dispatch }) => {
+      try {
+        const token = localStorage.getItem("Token");
+        let { data } = await axios.delete(`${api}/SubCategory/delete-sub-category?id=${id}`,{
+          headers:{Authorization: `Bearer ${token}`}
+        });
+        dispatch(getSubCategory())
+        dispatch(getBrands())
+        return data.data
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  );
+  
+
 export const subCategorySlice = createSlice({
     name:"subcategory",
     initialState:{

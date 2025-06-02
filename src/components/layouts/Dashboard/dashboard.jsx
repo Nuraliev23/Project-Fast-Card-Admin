@@ -6,6 +6,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import logo from '../../../shared/images/Group 1116606595 (1).png'
 
 const NAVIGATION = [
   { kind: "header", title: "Main items" },
@@ -56,6 +57,10 @@ const Dashbord = () => {
   
   return (
     <AppProvider
+    branding={{
+      logo : <img src={logo}/> , 
+      title : ''
+    }}
       navigation={NAVIGATION}
       router={router}
       theme={demoTheme}
