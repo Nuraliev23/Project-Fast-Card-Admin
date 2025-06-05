@@ -73,7 +73,7 @@ const Products = () => {
             <BorderColorIcon className="text-[#2563EB] cursor-pointer" />
         </div>
       </div>
-      <div className="overflow-x-auto bg-white rounded-lg shadow p-4">
+      <div className="overflow-x-auto bg-white rounded-lg shadow p-4 mt-[30px]">
         <table className="w-full table-auto text-sm text-left">
           <thead className="text-gray-500 border-b text-xs">
             <tr>

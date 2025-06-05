@@ -55,7 +55,7 @@ export const addNewProduct = createAsyncThunk(
 
       return response.data.data;
     } catch (error) {
-      console.error(error);
+      console.error(error.response?.data);
     }
   }
 );

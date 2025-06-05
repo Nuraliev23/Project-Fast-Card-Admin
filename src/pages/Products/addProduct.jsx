@@ -44,6 +44,7 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
+//   const [hasdiscount, sethasdiscount] = useState("");
   const [count, setCount] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -73,16 +74,16 @@ const AddProduct = () => {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append("Images", imageFile);
+    formData.append("BrandId", brand);
+    formData.append("ColorId", color);
     formData.append("ProductName", productName);
-    formData.append("Code", code);
     formData.append("Description", description);
+    formData.append("Quantity", count);
+    formData.append("Code", code);
     formData.append("Price", price);
     formData.append("DiscountPrice", discount);
-    formData.append("Quantity", count);
     formData.append("SubCategoryId", category);
-    formData.append("BrandId", brand);
-    formData.append("Images", imageFile);
-    formData.append("ColorId", color);
 
     dispatch(addNewProduct(formData));
   };
@@ -288,6 +289,7 @@ const AddProduct = () => {
                 className="bg-blue-600 text-white mt-4 px-4 py-2 rounded"
               >
                 Добавить товар
+
               </button>
             </div>
           </aside>
